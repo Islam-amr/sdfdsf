@@ -171,7 +171,7 @@ const Styles = StyleSheet.create({
         width: Diem.width,
         height: '30%',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     EntryViewCon: RTL => ({
         width: '80%',

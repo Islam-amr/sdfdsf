@@ -116,6 +116,16 @@ export default allStrings = new LocalizedStrings({
         addTerms: 'أضف الشروط',
         uploadif: 'يرجي رفع الملحق الفني إذا رغبت بمراجعتة',
         court: 'المحكمة المختصة',
+        language: 'الغة :',
+        arabic: 'عربي',
+        english: 'إنجليزي',
+        edit: 'تعديل',
+        cancel: 'ألغاء',
+        apply: 'تطبيق',
+        ContractOrders: 'طلبات  العقود',
+        ConsultationOrders: 'طلبات ألاستشارة',
+        SpecialOrders: 'طلبات خاصة',
+        norders:'لا يوجد طلبات'
     },
     en: {
         entry: 'Entry',
@@ -230,6 +240,16 @@ export default allStrings = new LocalizedStrings({
         otherTerms: 'Other Terms',
         addTerms: 'Add terms',
         uploadif: 'Please upload the technical attaché if you wish to review',
-        court: 'Competent court'
+        court: 'Competent court',
+        language: 'Language : ',
+        arabic: 'Arabic',
+        english: 'English',
+        edit: 'Edit',
+        cancel: 'Cancel',
+        apply: 'Apply',
+        ContractOrders: 'Contract Orders',
+        ConsultationOrders: 'Consult Orders',
+        SpecialOrders: 'Special Orders',
+        norders: 'There are no requests',
     }
 });

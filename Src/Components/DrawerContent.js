@@ -19,14 +19,22 @@ import { connect } from 'react-redux';
 
 const mapToStateProps = state => ({
     RTL: state.Language.RTL,   // to Get RTL redux State
-    Login: state.Login
+    Login: state.Login,
+    Update: state.Update
 });
 
 // Custom Drawer Function 
 const DrawerContent = (props) => {
     const RTL = props.RTL;  // RTL State Declare 
+    const Name = () => {
+        if (props.Update.UserData) {
+            return props.Update.UserData.name
+        } else {
+            return props.Login.UserData.data.name
+        }
+    };
     Strings.setLanguage(RTL ? 'en' : 'ar');  // To Set Langugae Accroding to RTL State
-    
+
     return (
         <View style={Styles.DrawerMainView}>
             <ImageBackground style={Styles.DrawerBackgroundImg} source={require('../Assets/Rectangle88781.png')} >
@@ -39,7 +47,7 @@ const DrawerContent = (props) => {
 
                     {/* User Data Container */}
                     <View style={Styles.UserNameCon}>
-                        <Text style={Styles.UserName}>{props.Login.isAuthenticated ? props.Login.UserData.data.name : 'Loading...'}</Text>
+                        <Text style={Styles.UserName}>{props.Login.isAuthenticated ? Name() : 'Loading...'}</Text>
                     </View>
 
                     {/* Drawer Item List  */}
@@ -50,13 +58,13 @@ const DrawerContent = (props) => {
                             <TouchableOpacity
                                 onPress={() => props.navigation.navigate('Home')}
                                 activeOpacity={0.5}
-                                style={Styles.DrawerItemConActive(RTL)}
+                                style={[Styles.DrawerItemCon(RTL), { backgroundColor: props.state.index === 1 ? Colors.ActiveDrawer.Color : 'rgba(0,0,0,0)' }]}
                             >
                                 <View style={Styles.IconCon}>
-                                    <IonIcon name="newspaper-outline" size={26} color={'gray'} />
+                                    <IonIcon name="newspaper-outline" size={26} color={'white'} />
                                 </View>
                                 <View style={Styles.DrawerTitleCon(RTL)}>
-                                    <Text style={Styles.DrawerItemLabelActive} >{Strings.home}</Text>
+                                    <Text style={Styles.DrawerItemLabel} >{Strings.home}</Text>
                                 </View>
                             </TouchableOpacity>
 
@@ -64,7 +72,7 @@ const DrawerContent = (props) => {
                             <TouchableOpacity
                                 onPress={() => props.navigation.navigate('Profile')}
                                 activeOpacity={0.5}
-                                style={Styles.DrawerItemCon(RTL)}
+                                style={[Styles.DrawerItemCon(RTL), { backgroundColor: props.state.index === 2 ? Colors.ActiveDrawer.Color : 'rgba(0,0,0,0)' }]}
                             >
                                 <View style={Styles.IconCon}>
                                     <Icon name='user' type='font-awesome' size={26} color={'white'} />
@@ -78,7 +86,7 @@ const DrawerContent = (props) => {
                             <TouchableOpacity
                                 onPress={() => props.navigation.navigate('Notifications')}
                                 activeOpacity={0.5}
-                                style={Styles.DrawerItemCon(RTL)}
+                                style={[Styles.DrawerItemCon(RTL), { backgroundColor: props.state.index === 3 ? Colors.ActiveDrawer.Color : 'rgba(0,0,0,0)' }]}
                             >
                                 <View style={Styles.IconCon}>
                                     <IonIcon name="notifications-outline" size={26} color={'white'} />
@@ -92,7 +100,7 @@ const DrawerContent = (props) => {
                             <TouchableOpacity
                                 onPress={() => props.navigation.navigate('Orders')}
                                 activeOpacity={0.5}
-                                style={Styles.DrawerItemCon(RTL)}
+                                style={[Styles.DrawerItemCon(RTL), { backgroundColor: props.state.index === 4 ? Colors.ActiveDrawer.Color : 'rgba(0,0,0,0)' }]}
                             >
                                 <View style={Styles.IconCon}>
                                     <Icon name='assignment' type='matrial' size={26} color={'white'} />
@@ -106,7 +114,7 @@ const DrawerContent = (props) => {
                             <TouchableOpacity
                                 onPress={() => props.navigation.navigate('Settings')}
                                 activeOpacity={0.5}
-                                style={Styles.DrawerItemCon(RTL)}
+                                style={[Styles.DrawerItemCon(RTL), { backgroundColor: props.state.index === 5 ? Colors.ActiveDrawer.Color : 'rgba(0,0,0,0)' }]}
                             >
                                 <View style={Styles.IconCon}>
                                     <IonIcon name="settings-outline" size={26} color={'white'} />
@@ -120,7 +128,7 @@ const DrawerContent = (props) => {
                             <TouchableOpacity
                                 onPress={() => props.navigation.navigate('ContactUs')}
                                 activeOpacity={0.5}
-                                style={Styles.DrawerItemCon(RTL)}
+                                style={[Styles.DrawerItemCon(RTL), { backgroundColor: props.state.index === 7 ? Colors.ActiveDrawer.Color : 'rgba(0,0,0,0)' }]}
                             >
                                 <View style={Styles.IconCon}>
                                     <IonIcon name="people-outline" size={26} color={'white'} />
@@ -134,7 +142,7 @@ const DrawerContent = (props) => {
                             <TouchableOpacity
                                 onPress={() => props.navigation.navigate('TermsAndConditions')}
                                 activeOpacity={0.5}
-                                style={Styles.DrawerItemCon(RTL)}
+                                style={[Styles.DrawerItemCon(RTL), { backgroundColor: props.state.index === 6 ? Colors.ActiveDrawer.Color : 'rgba(0,0,0,0)' }]}
                             >
                                 <View style={Styles.IconCon}>
                                     <Icon name='check-square' type='font-awesome' size={26} color={'white'} />
@@ -215,7 +223,6 @@ const Styles = StyleSheet.create({
         flex: 1,
         height: Diem.height * 0.07,
         flexDirection: RTL ? 'row' : 'row-reverse',
-        backgroundColor: Colors.ActiveDrawer.Color
     }),
     DrawerTitleCon: RTL => ({
         flex: 4,
@@ -238,3 +245,4 @@ const Styles = StyleSheet.create({
 });
 
 export default connect(mapToStateProps)(DrawerContent);
+

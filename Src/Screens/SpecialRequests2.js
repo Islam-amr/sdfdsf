@@ -42,10 +42,8 @@ class SpeacialRequests2 extends Component {
             .then(response => {
                 const data = new FormData();
                 response.forEach((image, index) => {
-                    data.append(`file[${index}]`, {
-                        uri: Platform.OS === 'ios' ? `file://${image.path}` : image.path,
-                        type: 'image/jpeg',
-                        name: `image.jpg`
+                    data.append(`images[]`, {
+                        uri: Platform.OS === 'android' ? image.sourceURL : image.sourceURL.replace('file://', ''),
                     });
                     this.setState({ ImageSourceviewarray: this.state.ImageSourceviewarray.concat(Object.values(data._parts[index][1])[0]) }, function () {
                         this.setState({ HasFiles: 1 })

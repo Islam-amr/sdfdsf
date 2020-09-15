@@ -35,6 +35,8 @@ class SelectService extends Component {
         }
     }
 
+
+
     onSelect(index, value) {
         this.setState({
             SelectServiceValue: value
@@ -44,12 +46,29 @@ class SelectService extends Component {
     SendOrder(orderdetails) {
         if (orderdetails.Ordertype === 'consultation') {
             // Consultation Order Request
+            var formdata = new FormData();
+            formdata.append("order_type", orderdetails.Ordertype);
+            formdata.append("has_files", orderdetails.HasFiles);
+            formdata.append("execution_time", this.state.SelectServiceValue[1]);
+            formdata.append("amount", this.state.SelectServiceValue[0]);
+            formdata.append("details", orderdetails.Details);
+            orderdetails.Images.forEach((image) => {
+                formdata.append('images[]', {
+                    uri: image,
+                    type: 'multipart/form-data',
+                    name: 'image'
+                })
+            });
+            console.log(formdata);
             try {
-                this.props.postConsultOrder(this.props.Login.Token, orderdetails.Ordertype, orderdetails.HasFiles, this.state.SelectServiceValue[0], this.state.SelectServiceValue[1], orderdetails.Details, orderdetails.Images)
+                this.props.postConsultOrder(this.props.Login.Token, formdata)
                     .then(() => {
                         if (this.props.OrderConsult.OrderData) {
-                            // this.props.navigation.navigate('Orders')
-                            console.log('hello')
+                            this.props.navigation.popToTop();
+                            this.props.navigation.navigate('Orders', {
+                                screen: 'Orders',
+                                params: { Order: true },
+                            });
                         } else {
                             Alert.alert('Network error')
                         }
@@ -61,11 +80,28 @@ class SelectService extends Component {
             }
         } else if (orderdetails.Ordertype === 'special') {
             // Special Order Request
+            var formdata = new FormData();
+            formdata.append("order_type", orderdetails.Ordertype);
+            formdata.append("has_files", orderdetails.HasFiles);
+            formdata.append("execution_time", this.state.SelectServiceValue[1]);
+            formdata.append("amount", this.state.SelectServiceValue[0]);
+            formdata.append("details", orderdetails.Details);
+            orderdetails.Images.forEach((image) => {
+                formdata.append('images[]', {
+                    uri: image,
+                    type: 'multipart/form-data',
+                    name: 'image'
+                })
+            });
             try {
-                this.props.postSpecialOrder(this.props.Login.Token, orderdetails.Ordertype, orderdetails.HasFiles, this.state.SelectServiceValue[0], this.state.SelectServiceValue[1], orderdetails.Details, orderdetails.Images)
+                this.props.postSpecialOrder(this.props.Login.Token, formdata)
                     .then(() => {
                         if (this.props.OrderSpecial.OrderData) {
-                            this.props.navigation.navigate('Orders')
+                            this.props.navigation.popToTop();
+                            this.props.navigation.navigate('Orders', {
+                                screen: 'Orders',
+                                params: { Order: true },
+                            });
                         } else {
                             Alert.alert('Network error')
                         }
@@ -99,7 +135,11 @@ class SelectService extends Component {
                 )
                     .then(() => {
                         if (this.props.OrderContract.OrderData) {
-                            this.props.navigation.navigate('Orders')
+                            this.props.navigation.popToTop();
+                            this.props.navigation.navigate('Orders', {
+                                screen: 'Orders',
+                                params: { Order: true },
+                            });
                         } else {
                             Alert.alert('Network error')
                         }
@@ -120,8 +160,6 @@ class SelectService extends Component {
         Strings.setLanguage(RTL ? 'en' : 'ar');  // To Change Language According to RTL Redux State
 
         const OrderDetails = this.props.route.params;
-
-        console.log(OrderDetails);
 
         // Main Return
         return (

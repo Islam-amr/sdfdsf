@@ -4,6 +4,7 @@ import logger from 'redux-logger';
 import { Language } from '../Reducers/Language';
 import { Login } from '../Reducers/Login';
 import { Register } from '../Reducers/Register';
+import { Update } from '../Reducers/UpdateProfile';
 import { Verify, ResendCode } from '../Reducers/Verify';
 import { OrderConsult } from '../Reducers/OrderConsult';
 import { OrderSpecial } from '../Reducers/OrderSpecial';
@@ -20,6 +21,7 @@ export const ConfigureStore = () => {
             Language,
             Login,
             Register,
+            Update,
             Verify,
             ResendCode,
             OrderConsult,

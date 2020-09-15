@@ -5,18 +5,11 @@ import { GetOrder } from '../API/AuthBaseUrl';
 import axios from "axios"
 
 // Post Consult Order
-export const postConsultOrder = (token, order_type, has_files, amount, execution_time, details, images) => async dispatch => {
+export const postConsultOrder = (token, data) => async dispatch => {
     let Token = token;
     dispatch({ type: ActionTypes.CONSULT_ORDER_REQUEST });
     try {
-        const response = await axios.post(AddOrder, {
-            order_type: order_type,
-            has_files: has_files,
-            amount: amount,
-            execution_time: execution_time,
-            details: details,
-            images: images
-        }, { headers: { Authorization: 'Bearer ' + Token } });
+        const response = await axios.post(AddOrder, data, { headers: { Authorization: 'Bearer ' + Token } });
         const Data = response.data  // To Check if successfully logged in or not 
         console.log(Data);
         dispatch({ type: ActionTypes.CONSULT_ORDER_SUCCESS, payload: Data.data });
@@ -43,18 +36,11 @@ export const fetchConsultOrder = (token) => async dispatch => {
 
 
 // Post Special Order
-export const postSpecialOrder = (token, order_type, has_files, amount, execution_time, details, images) => async dispatch => {
+export const postSpecialOrder = (token, data) => async dispatch => {
     let Token = token;
     dispatch({ type: ActionTypes.SPECIAL_ORDER_REQUEST });
     try {
-        const response = await axios.post(AddOrder, {
-            order_type: order_type,
-            has_files: has_files,
-            amount: amount,
-            execution_time: execution_time,
-            details: details,
-            images: images
-        }, { headers: { Authorization: 'Bearer ' + Token } });
+        const response = await axios.post(AddOrder, data, { headers: { Authorization: 'Bearer ' + Token } });
         const Data = response.data  // To Check if successfully logged in or not 
         console.log(Data);
         dispatch({ type: ActionTypes.SPECIAL_ORDER_SUCCESS, payload: Data.data });

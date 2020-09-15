@@ -1,3 +1,6 @@
+//Language Action Type
+export const CHANGE_LANGUAGE = 'CHANGE_LANGUAGE';
+
 // Login Action Types
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -12,6 +15,11 @@ export const REGISTER_FAILURE = 'REGISTER_FAILURE';
 export const VERIFY_REQUEST = 'VERIFY_REQUEST';
 export const VERIFY_SUCCESS = 'VERIFY_SUCCESS';
 export const VERIFY_FAILURE = 'VERIFY_FAILURE';
+
+//Update Action Types
+export const UPDATE_REQUEST = 'UPDATE_REQUEST';
+export const UPDATE_SUCCESS = 'UPDATE_SUCCESS';
+export const UPDATE_FAILURE = 'UPDATE_FAILURE';
 
 // Resedn Code Action Types
 export const RESEND_CODE_REQUEST = 'RESEND_CODE_REQUEST';

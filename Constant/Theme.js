@@ -63,6 +63,9 @@ const FontSize = {
     large: {
         fontsize: ActuatedNormalize(20)
     },
+    mlavg: {
+        fontsize: ActuatedNormalize(18.5)
+    },
     xlarge: {
         fontsize: ActuatedNormalize(24)
     },

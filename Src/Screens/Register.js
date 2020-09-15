@@ -45,6 +45,14 @@ class Register extends Component {
                     .then(() => {
                         if (this.props.Register.isRegisterd) {
                             this.props.navigation.navigate('VerifyAccount');
+                            this.setState({
+                                Name: null,
+                                Email: null,
+                                Phone: null,
+                                Address: null,
+                                Password: null,
+                                Confirm_Password: null
+                            })
                         } else {
                             if (this.props.Register.errMsg != null) {
                                 Alert.alert('Network Error')

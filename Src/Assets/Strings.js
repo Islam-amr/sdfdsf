@@ -123,7 +123,7 @@ export default allStrings = new LocalizedStrings({
         cancel: 'ألغاء',
         apply: 'تطبيق',
         ContractOrders: 'طلبات  العقود',
-        ConsultationOrders: 'طلبات ألاستشارة',
+        ConsultationOrders: 'طلبات الإستشارة',
         SpecialOrders: 'طلبات خاصة',
         norders:'لا يوجد طلبات'
     },

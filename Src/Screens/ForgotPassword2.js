@@ -58,6 +58,7 @@ class ForgetPassword2 extends Component {
                     fontFamily: 'Arial',
                     position: 'bottom',
                 });
+                this.props.navigation.navigate('Login')
             } else {
                 if (result.msg === "reset code مطلوب.") {
                     RNToasty.Show({ title: Strings.verifyCodeRequired, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color })

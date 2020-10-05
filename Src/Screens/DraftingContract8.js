@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import { SafeAreaView, Text, View, StyleSheet, Image, ImageBackground, TextInput, TouchableOpacity, Alert } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { RNToasty } from 'react-native-toasty';
+
 
 // Strings Import 
 import Strings from '../Assets/Strings';
@@ -31,9 +33,11 @@ class DraftingContract8 extends Component {
         }
 
         if (this.state.Financial === null) {
-            Alert.alert('Please Fill Finical')
+            RNToasty.Show({ title: Strings.dc8, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
+
         } else if (this.state.Termination === null) {
-            Alert.alert('Please Fill Termantion')
+            RNToasty.Show({ title: Strings.dc9, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
+
         } else {
             Submit()
         }

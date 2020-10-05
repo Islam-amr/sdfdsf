@@ -1,6 +1,10 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
+import { persistStore, persistCombineReducers } from 'redux-persist';
+import AsyncStorage from '@react-native-community/async-storage';
+
+// Reducers
 import { Language } from '../Reducers/Language';
 import { Login } from '../Reducers/Login';
 import { Register } from '../Reducers/Register';
@@ -16,8 +20,17 @@ import { FetchContractOrder } from '../Reducers/FetchContractOrder';
 
 
 export const ConfigureStore = () => {
+
+    const config = {
+        key: 'root',
+        storage: AsyncStorage,
+        whitelist: ['Language', 'OrderConsult', 'OrderContract', 'OrderContract'],
+        debug: true,
+
+    };
+
     const store = createStore(
-        combineReducers({
+        persistCombineReducers(config, {
             Language,
             Login,
             Register,
@@ -30,9 +43,11 @@ export const ConfigureStore = () => {
             FetchConsultOrder,
             FetchSpecialOrder,
             FetchContractOrder
-        }),
+        }), undefined,
         applyMiddleware(thunk, logger)
     );
 
-    return store;
+    const persistor = persistStore(store);
+
+    return { persistor, store };
 }

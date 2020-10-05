@@ -117,9 +117,9 @@ class Profile extends Component {
 
                 <SafeAreaView style={Styles.MainView}>
 
-                    <View style={{ width: Diem.width, height: Diem.height * 0.22, justifyContent: 'center', alignItems: 'center' }}>
-                        <Image style={{ width: '45%', height: '90%', borderRadius: 2000 }} source={{ uri: this.state.NewImage }} />
-                        <View style={{ width: '15%', height: '30%', bottom: 0, left: '55%', position: 'absolute', justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ width: Diem.width * 0.5, height: Diem.width * 0.5, justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}>
+                        <Image style={{ width: '90%', height: '90%', borderRadius: 2000 }} source={{ uri: this.state.NewImage }} />
+                        <View style={{ width: '15%', height: '30%', bottom: 0, left: '70%', position: 'absolute', justifyContent: 'center', alignItems: 'center' }}>
                             <Icon name='pencil' type='font-awesome' reverse color={Colors.Primary.Color} onPress={() => this.UploadImages()} />
                         </View>
                     </View>

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { SafeAreaView, Text, View, StyleSheet, Image, ImageBackground, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
+import { RNToasty } from 'react-native-toasty';
 
 // Strings Import 
 import Strings from '../Assets/Strings';
@@ -38,13 +39,12 @@ class Register extends Component {
 
     RegisterClicked() {
         if (this.state.Password != this.state.Confirm_Password) {
-            Alert.alert(Strings.passwordNotMatch);
+            RNToasty.Show({ title: Strings.passwordNotMatch, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
         } else {
             try {
                 this.props.postRegister(this.state.Name, this.state.Email, this.state.Address, this.state.Phone, this.state.Password)
                     .then(() => {
                         if (this.props.Register.isRegisterd) {
-                            this.props.navigation.navigate('VerifyAccount');
                             this.setState({
                                 Name: null,
                                 Email: null,
@@ -53,29 +53,31 @@ class Register extends Component {
                                 Password: null,
                                 Confirm_Password: null
                             })
+                            this.props.navigation.navigate('VerifyAccount');
                         } else {
                             if (this.props.Register.errMsg != null) {
-                                Alert.alert('Network Error')
+                                RNToasty.Show({ title: Strings.networkerror, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
                             } else {
                                 switch (this.props.Register.RegisterData.msg != null) {
                                     case this.props.Register.RegisterData.msg === 'الاسم مطلوب.':
-                                        return Alert.alert(Strings.nameRequired);
+                                        return RNToasty.Show({ title: Strings.nameRequired, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
                                     case this.props.Register.RegisterData.msg === 'عنوان السكن مطلوب.':
-                                        return Alert.alert(Strings.addressRequired);
+                                        return RNToasty.Show({ title: Strings.addressRequired, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
                                     case this.props.Register.RegisterData.msg === 'البريد الالكتروني مطلوب.':
-                                        return Alert.alert(Strings.emailRequired);
+                                        return RNToasty.Show({ title: Strings.emailRequired, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
                                     case this.props.Register.RegisterData.msg === 'يجب أن يكون البريد الالكتروني عنوان بريد إلكتروني صحيح البُنية':
-                                        return Alert.alert('Email ghalat');
+                                        return RNToasty.Show({ title: Strings.wrongemail, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
                                     case this.props.Register.RegisterData.msg === 'قيمة البريد الالكتروني مُستخدمة من قبل':
-                                        return Alert.alert(Strings.emailAlreadyUsed);
+                                        return RNToasty.Show({ title: Strings.emailAlreadyUsed, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
                                     case this.props.Register.RegisterData.msg === 'الهاتف مطلوب.':
-                                        return Alert.alert(Strings.phoneRequired);
+                                        return RNToasty.Show({ title: Strings.phoneRequired, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
                                     case this.props.Register.RegisterData.msg === 'قيمة الهاتف مُستخدمة من قبل':
-                                        return Alert.alert(Strings.phoneAlreadyUsed);
+                                        return RNToasty.Show({ title: Strings.phoneAlreadyUsed, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
                                     case this.props.Register.RegisterData.msg === 'كلمة السر مطلوب.':
-                                        return Alert.alert(Strings.passwordRequired);
+                                        return RNToasty.Show({ title: Strings.passwordRequired, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
                                     case this.props.Register.RegisterData.msg === 'يجب أن يكون طول النص كلمة السر على الأقل 6 حروفٍ/حرفًا':
                                         return Alert.alert(Strings.passwordLength);
+                                        return RNToasty.Show({ title: Strings.passwordLength, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
                                     default:
                                         return null;
                                 }

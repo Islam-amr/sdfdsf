@@ -4,6 +4,8 @@ import { SafeAreaView, Text, View, StyleSheet, Image, ImageBackground, TextInput
 import { RadioGroup, RadioButton } from 'react-native-flexi-radio-button';
 import ImagePicker from 'react-native-image-crop-picker';
 import LinearGradient from 'react-native-linear-gradient';
+import { RNToasty } from 'react-native-toasty';
+
 
 // Strings Import 
 import Strings from '../Assets/Strings';
@@ -37,6 +39,7 @@ class DraftingContract9 extends Component {
         })
     };
 
+
     UploadImages = () => {
         ImagePicker.openPicker({
             mediaType: 'photo',
@@ -48,9 +51,7 @@ class DraftingContract9 extends Component {
                 const data = new FormData();
                 response.forEach((image, index) => {
                     data.append(`images[]`, {
-                        uri: image.path,
-                        type: 'multipart/form-data',
-                        name: `image`
+                        uri: Platform.OS === 'android' ? image.sourceURL : image.sourceURL.replace('file://', ''),
                     });
                     this.setState({ ImageSourceviewarray: this.state.ImageSourceviewarray.concat(Object.values(data._parts[index][1])[0]) }, function () {
                         this.setState({ HasFiles: 1 })
@@ -67,9 +68,7 @@ class DraftingContract9 extends Component {
             this.props.navigation.navigate('SelectService', { Ordertype: this.state.Ordertype, Contract_Sub_Dur: draftingContract8.Contract_Sub_Dur, Party1: draftingContract8.Party1, Party2: draftingContract8.Party2, Commitments: draftingContract8.Commitments, Special_Terms: draftingContract8.Special_Terms, Partial_Terms: draftingContract8.Partial_Terms, Termination: draftingContract8.Termination, Court: this.state.Court, OtherTerms: this.state.Other_Terms, Images: this.state.ImageSourceviewarray, HasFiles: this.state.HasFiles })
         }
         if (this.state.Court === null) {
-            Alert.alert('Please Fill Finical')
-        } else if (this.state.Other_Terms === null) {
-            Alert.alert('Please Fill Termantion')
+            RNToasty.Show({ title: Strings.dc10, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
         } else {
             Submit()
         }

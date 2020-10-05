@@ -1,5 +1,6 @@
 //Language Action Type
-export const CHANGE_LANGUAGE = 'CHANGE_LANGUAGE';
+export const CHANGE_LANGUAGE_EN = 'CHANGE_LANGUAGE_EN';
+export const CHANGE_LANGUAGE_AR = 'CHANGE_LANGUAGE_AR';
 
 // Login Action Types
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';

@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import { SafeAreaView, Text, View, StyleSheet, Image, ImageBackground, TextInput, TouchableOpacity, Alert } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { RNToasty } from 'react-native-toasty';
+
 
 // Strings Import 
 import Strings from '../Assets/Strings';
@@ -30,10 +32,20 @@ class DraftingContract2 extends Component {
             if (this.state.Contract_Duration != null) {
                 this.props.navigation.navigate('DraftingContract3', { Contract_Subject: this.state.Contract_Subject, Contract_Duration: this.state.Contract_Duration })
             } else {
-                Alert.alert('Please Fill Contract\'s Duration')
+                RNToasty.Show({
+                    title: Strings.dc3,
+                    fontFamily: 'Arial',
+                    position: 'bottom',
+                    tintColor: Colors.Red.Color
+                });
             }
         } else {
-            Alert.alert('Please Fill Contract\'s Subject')
+            RNToasty.Show({
+                title: Strings.dc2,
+                fontFamily: 'Arial',
+                position: 'bottom',
+                tintColor: Colors.Red.Color
+            });
         }
     }
 

@@ -47,12 +47,12 @@ class SpeacialRequests extends Component {
                         </View>
                     </View>
 
-                    <View style={{ height: Diem.height * 0.1, width: Diem.width, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ height: Diem.height * 0.14, width: Diem.width, justifyContent: 'center', alignItems: 'center' }}>
                         <Text style={{ width: '80%', fontSize: FontSize.medium.fontsize, textAlign: 'center', lineHeight: 40 }}>{Strings.speacialrequestpara1}</Text>
                     </View>
 
                     <View style={{ height: Diem.height * 0.12, width: Diem.width, marginTop: Diem.height * 0.08, justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style={{ width: '80%', fontSize:FontSize.medium.fontsize, textAlign: 'center', lineHeight: 40 }}>{Strings.speacialrequestpara2}</Text>
+                        <Text style={{ width: '80%', fontSize: FontSize.medium.fontsize, textAlign: 'center', lineHeight: 40 }}>{Strings.speacialrequestpara2}</Text>
                     </View>
 
                     <View style={Styles.GRDTCon}>

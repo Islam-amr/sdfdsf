@@ -1,6 +1,6 @@
 // Package Import
 import React, { Component } from 'react';
-import { SafeAreaView, Text, View, StyleSheet, Image, ImageBackground, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { SafeAreaView, Text, View, StyleSheet, Image, ImageBackground, TextInput, TouchableOpacity, Alert, NativeModules } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { RadioGroup, RadioButton } from 'react-native-flexi-radio-button';
 
@@ -50,9 +50,19 @@ class Settings extends Component {
 
     ChangeLang() {
         if (this.props.RTL === this.state.Language) {
-            Alert.alert('Language is already English')
+
         } else {
-            this.props.changeLanguage(this.state.Language);
+            if (this.state.Language === true) {
+                this.props.changeLanguageEN()
+                setTimeout(() => {
+                    NativeModules.DevSettings.reload();
+                }, 10)
+            } else {
+                this.props.changeLanguageAR()
+                setTimeout(() => {
+                    NativeModules.DevSettings.reload();
+                }, 10)
+            }
         }
     }
 
@@ -141,4 +151,4 @@ const Styles = StyleSheet.create({
     }
 });
 
-export default connect(mapToStateProps,Actions)(Settings);
+export default connect(mapToStateProps, Actions)(Settings);

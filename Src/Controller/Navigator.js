@@ -1,5 +1,5 @@
 // Package Import
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, HeaderBackButton } from '@react-navigation/stack';
@@ -18,6 +18,8 @@ import DrawerContent from '../Components/DrawerContent';
 import Login from '../Screens/Login';
 import Register from '../Screens/Register';
 import VerifyAccount from '../Screens/VerifyAccount';
+import ForgotPassword from '../Screens/ForgotPassword';
+import ForgotPassword2 from '../Screens/ForgotPassword2';
 import ShowsTaks from '../Screens/ShowTasks';
 import ReviewConsult from '../Screens/ReviewConsult';
 import ReviewConsult2 from '../Screens/ReviewConsult2';
@@ -50,10 +52,12 @@ const mapToStateProps = state => ({
     RTL: state.Language.RTL,   // to Get RTL redux State
 });
 
-const RTL = ConfigureStore().getState().Language.RTL;  // Declare RTL state From Redux Store
+const { store } = ConfigureStore();
+
+let RTL = store.getState().Language.RTL;
 
 
-Strings.setLanguage(RTL ? 'en' : 'ar');  // to Handle Language Change 
+// to Handle Language Change 
 
 
 // Header & Drawer Style
@@ -62,11 +66,11 @@ const Styles = StyleSheet.create({
         backgroundColor: Colors.Primary.Color,
         height: Diem.height * 0.11
     },
-    HeaderTitle: {
+    HeaderTitle: RTL => ({
         fontSize: FontSize.medium.fontsize,
         color: Colors.White.Color,
         textAlign: RTL ? 'left' : 'right',
-    },
+    }),
     HeaderLeft: {
         width: Diem.width * 0.15,
         height: '100%',
@@ -89,7 +93,6 @@ const Styles = StyleSheet.create({
 // Stack Option List 
 const StackOption = {
     headerStyle: Styles.Header,
-    headerTitleStyle: Styles.HeaderTitle,
     headerTitleAlign: 'left',
     headerLeftContainerStyle: Styles.HeaderLeft,
     headerRightContainerStyle: Styles.HeaderRight,
@@ -118,15 +121,21 @@ const OpenDrawer = (props) => {
 
 // Login Stack Screens
 const LoginScreen = ({ navigation }) => {
+    RTL = store.getState().Language.RTL;
     const Stack = createStackNavigator();
+
     const HeaderEntry2RTL = RTL ? { headerLeft: () => null, headerRight: () => goBack({ navigation }) } : { headerRight: () => null, headerLeft: () => goBack({ navigation }) }
     return (
         <Stack.Navigator>
-            <Stack.Screen name='Login' component={Login} options={{ title: Strings.entry, ...StackOption }} />
+            <Stack.Screen name='Login' component={Login} options={{ title: Strings.entry, ...StackOption, headerTitleStyle: Styles.HeaderTitle(RTL) }} />
 
-            <Stack.Screen name='Register' component={Register} options={{ title: Strings.registerScreen, ...StackOption, ...HeaderEntry2RTL }} />
+            <Stack.Screen name='Register' component={Register} options={{ title: Strings.registerScreen, ...StackOption, headerTitleStyle: Styles.HeaderTitle(RTL), ...HeaderEntry2RTL }} />
 
-            <Stack.Screen name='VerifyAccount' component={VerifyAccount} options={{ title: Strings.verifyAccount, ...StackOption }} />
+            <Stack.Screen name='VerifyAccount' component={VerifyAccount} options={{ title: Strings.verifyAccount, ...StackOption, headerTitleStyle: Styles.HeaderTitle(RTL) }} />
+
+            <Stack.Screen name='Forgot' component={ForgotPassword} options={{ title: Strings.forgot, ...StackOption, headerTitleStyle: Styles.HeaderTitle(RTL), ...HeaderEntry2RTL }} />
+
+            <Stack.Screen name='Forgot2' component={ForgotPassword2} options={{ title: Strings.forgot, ...StackOption, headerTitleStyle: Styles.HeaderTitle(RTL), ...HeaderEntry2RTL }} />
 
         </Stack.Navigator>
     )
@@ -134,56 +143,59 @@ const LoginScreen = ({ navigation }) => {
 
 // Home Stack Screens
 const HomeScreen = ({ navigation }) => {
+
     const Stack = createStackNavigator();
+    RTL = store.getState().Language.RTL;
+
     const HeaderRTL = RTL ? { headerLeft: () => OpenDrawer({ navigation }) } : { headerRight: () => OpenDrawer({ navigation }) };
     const Header2RTL = RTL ? { headerLeft: () => OpenDrawer({ navigation }), headerRight: () => goBack({ navigation }) } : { headerRight: () => OpenDrawer({ navigation }), headerLeft: () => goBack({ navigation }) }
     return (
         <Stack.Navigator initialRouteName='ShowTasks'>
 
             <Stack.Screen name='ShowTasks' component={ShowsTaks}
-                options={{ title: Strings.showTasks, ...StackOption, ...HeaderRTL }} />
+                options={{ title: Strings.showTasks, headerTitleStyle: Styles.HeaderTitle(RTL), ...StackOption, ...HeaderRTL }} />
 
             <Stack.Screen name='ReviewConsult' component={ReviewConsult}
-                options={{ title: Strings.reviewAndConsult, ...StackOption, ...Header2RTL }} />
+                options={{ title: Strings.reviewAndConsult, headerTitleStyle: Styles.HeaderTitle(RTL), ...StackOption, ...Header2RTL }} />
 
             <Stack.Screen name='ReviewConsult2' component={ReviewConsult2}
-                options={{ title: Strings.reviewAndConsult, ...StackOption, ...Header2RTL }} />
+                options={{ title: Strings.reviewAndConsult, headerTitleStyle: Styles.HeaderTitle(RTL), ...StackOption, ...Header2RTL }} />
 
             <Stack.Screen name='DraftingContract' component={DraftingContract}
-                options={{ title: Strings.draftingContract, ...StackOption, ...Header2RTL }} />
+                options={{ title: Strings.draftingContract, headerTitleStyle: Styles.HeaderTitle(RTL), ...StackOption, ...Header2RTL }} />
 
             <Stack.Screen name='DraftingContract2' component={DraftingContract2}
-                options={{ title: Strings.draftingContract2, ...StackOption, ...Header2RTL }} />
+                options={{ title: Strings.draftingContract2, headerTitleStyle: Styles.HeaderTitle(RTL), ...StackOption, ...Header2RTL }} />
 
             <Stack.Screen name='DraftingContract3' component={DraftingContract3}
-                options={{ title: Strings.draftingContract3, ...StackOption, ...Header2RTL }} />
+                options={{ title: Strings.draftingContract3, headerTitleStyle: Styles.HeaderTitle(RTL), ...StackOption, ...Header2RTL }} />
 
             <Stack.Screen name='DraftingContract4' component={DraftingContract4}
-                options={{ title: Strings.draftingContract3, ...StackOption, ...Header2RTL }} />
+                options={{ title: Strings.draftingContract3, headerTitleStyle: Styles.HeaderTitle(RTL), ...StackOption, ...Header2RTL }} />
 
             <Stack.Screen name='DraftingContract5' component={DraftingContract5}
-                options={{ title: Strings.partiesObli, ...StackOption, ...Header2RTL }} />
+                options={{ title: Strings.partiesObli, headerTitleStyle: Styles.HeaderTitle(RTL), ...StackOption, ...Header2RTL }} />
 
             <Stack.Screen name='DraftingContract6' component={DraftingContract6}
-                options={{ title: Strings.partiesObli, ...StackOption, ...Header2RTL }} />
+                options={{ title: Strings.partiesObli, headerTitleStyle: Styles.HeaderTitle(RTL), ...StackOption, ...Header2RTL }} />
 
             <Stack.Screen name='DraftingContract7' component={DraftingContract7}
-                options={{ title: Strings.penalAndSpec, ...StackOption, ...Header2RTL }} />
+                options={{ title: Strings.penalAndSpec, headerTitleStyle: Styles.HeaderTitle(RTL), ...StackOption, ...Header2RTL }} />
 
             <Stack.Screen name='DraftingContract8' component={DraftingContract8}
-                options={{ title: Strings.finAcc, ...StackOption, ...Header2RTL }} />
+                options={{ title: Strings.finAcc, headerTitleStyle: Styles.HeaderTitle(RTL), ...StackOption, ...Header2RTL }} />
 
             <Stack.Screen name='DraftingContract9' component={DraftingContract9}
-                options={{ title: Strings.jurisdiction, ...StackOption, ...Header2RTL }} />
+                options={{ title: Strings.jurisdiction, headerTitleStyle: Styles.HeaderTitle(RTL), ...StackOption, ...Header2RTL }} />
 
             <Stack.Screen name='SpecialRequests' component={SpecialRequests}
-                options={{ title: Strings.specialRequests, ...StackOption, ...Header2RTL }} />
+                options={{ title: Strings.specialRequests, headerTitleStyle: Styles.HeaderTitle(RTL), ...StackOption, ...Header2RTL }} />
 
             <Stack.Screen name='SpecialRequests2' component={SpecialRequests2}
-                options={{ title: Strings.specialRequests, ...StackOption, ...Header2RTL }} />
+                options={{ title: Strings.specialRequests, headerTitleStyle: Styles.HeaderTitle(RTL), ...StackOption, ...Header2RTL }} />
 
             <Stack.Screen name='SelectService' component={SelectService}
-                options={{ title: Strings.selectServicee, ...StackOption, ...Header2RTL }} />
+                options={{ title: Strings.selectServicee, headerTitleStyle: Styles.HeaderTitle(RTL), ...StackOption, ...Header2RTL }} />
 
 
         </Stack.Navigator>
@@ -193,10 +205,12 @@ const HomeScreen = ({ navigation }) => {
 // Profile Stack Screen
 const ProfileScreen = ({ navigation }) => {
     const Stack = createStackNavigator();
+    RTL = store.getState().Language.RTL;
+
     const HeaderRTL = RTL ? { headerLeft: () => OpenDrawer({ navigation }) } : { headerRight: () => OpenDrawer({ navigation }) };
     return (
         <Stack.Navigator>
-            <Stack.Screen name='Profile' component={Profile} options={{ title: Strings.profile, ...StackOption, ...HeaderRTL }} />
+            <Stack.Screen name='Profile' component={Profile} options={{ title: Strings.profile, ...StackOption, ...HeaderRTL, headerTitleStyle: Styles.HeaderTitle(RTL) }} />
         </Stack.Navigator>
     )
 };
@@ -205,10 +219,12 @@ const ProfileScreen = ({ navigation }) => {
 // Notifications Stack Screen
 const NotificationsScreen = ({ navigation }) => {
     const Stack = createStackNavigator();
+    RTL = store.getState().Language.RTL;
+
     const HeaderRTL = RTL ? { headerLeft: () => OpenDrawer({ navigation }) } : { headerRight: () => OpenDrawer({ navigation }) };
     return (
         <Stack.Navigator>
-            <Stack.Screen name='Notifications' component={Notifications} options={{ title: Strings.notifications, ...StackOption, ...HeaderRTL }} />
+            <Stack.Screen name='Notifications' component={Notifications} options={{ title: Strings.notifications, ...StackOption, ...HeaderRTL, headerTitleStyle: Styles.HeaderTitle(RTL) }} />
         </Stack.Navigator>
     )
 };
@@ -216,10 +232,12 @@ const NotificationsScreen = ({ navigation }) => {
 // Orders Stack Screen
 const OrdersScreen = ({ navigation }) => {
     const Stack = createStackNavigator();
+    RTL = store.getState().Language.RTL;
+
     const HeaderRTL = RTL ? { headerLeft: () => OpenDrawer({ navigation }) } : { headerRight: () => OpenDrawer({ navigation }) };
     return (
         <Stack.Navigator>
-            <Stack.Screen name='Orders' component={Orders} options={{ title: Strings.orders, ...StackOption, ...HeaderRTL }} />
+            <Stack.Screen name='Orders' component={Orders} options={{ title: Strings.orders, ...StackOption, ...HeaderRTL, headerTitleStyle: Styles.HeaderTitle(RTL) }} />
         </Stack.Navigator>
     )
 };
@@ -227,10 +245,12 @@ const OrdersScreen = ({ navigation }) => {
 // Settings Stack Screen
 const SettingsScreen = ({ navigation }) => {
     const Stack = createStackNavigator();
+    RTL = store.getState().Language.RTL;
+
     const HeaderRTL = RTL ? { headerLeft: () => OpenDrawer({ navigation }) } : { headerRight: () => OpenDrawer({ navigation }) };
     return (
         <Stack.Navigator>
-            <Stack.Screen name='Settings' component={Settings} options={{ title: Strings.settings, ...StackOption, ...HeaderRTL }} />
+            <Stack.Screen name='Settings' component={Settings} options={{ title: Strings.settings, ...StackOption, ...HeaderRTL, headerTitleStyle: Styles.HeaderTitle(RTL) }} />
         </Stack.Navigator>
     )
 };
@@ -238,10 +258,12 @@ const SettingsScreen = ({ navigation }) => {
 // Contact Stack Screen
 const ContactUsScreen = ({ navigation }) => {
     const Stack = createStackNavigator();
+    RTL = store.getState().Language.RTL;
+
     const HeaderRTL = RTL ? { headerLeft: () => OpenDrawer({ navigation }) } : { headerRight: () => OpenDrawer({ navigation }) };
     return (
         <Stack.Navigator>
-            <Stack.Screen name='ContactUs' component={ContactUs} options={{ title: Strings.contactus, ...StackOption, ...HeaderRTL }} />
+            <Stack.Screen name='ContactUs' component={ContactUs} options={{ title: Strings.contactus, ...StackOption, ...HeaderRTL, headerTitleStyle: Styles.HeaderTitle(RTL) }} />
         </Stack.Navigator>
     )
 };
@@ -249,22 +271,25 @@ const ContactUsScreen = ({ navigation }) => {
 // Terms and Conditions Stack Screen
 const TermsAndConditionsScreen = ({ navigation }) => {
     const Stack = createStackNavigator();
+    RTL = store.getState().Language.RTL;
+
     const HeaderRTL = RTL ? { headerLeft: () => OpenDrawer({ navigation }) } : { headerRight: () => OpenDrawer({ navigation }) };
     return (
         <Stack.Navigator>
-            <Stack.Screen name='TermsAndConditions' component={TermsAndConditions} options={{ title: Strings.terms, ...StackOption, ...HeaderRTL }} />
+            <Stack.Screen name='TermsAndConditions' component={TermsAndConditions} options={{ title: Strings.terms, ...StackOption, ...HeaderRTL, headerTitleStyle: Styles.HeaderTitle(RTL) }} />
         </Stack.Navigator>
     )
 };
 
 // Drawer Screens
-const DrawerNavigator = ({ navigation }) => {
+const DrawerNavigator = (props) => {
     const Drawer = createDrawerNavigator();
+
     return (
         <NavigationContainer>
             <Drawer.Navigator
                 drawerType='slide'
-                drawerPosition={RTL ? 'left' : 'right'}
+                drawerPosition={props.RTL ? 'left' : 'right'}
                 drawerContentOptions={{ activeBackgroundColor: '#5cbbff', activeTintColor: '#ffffff' }}
                 drawerContent={props => <DrawerContent {...props} />}
                 drawerStyle={{ width: Diem.width * 0.75 }}
@@ -285,8 +310,9 @@ const DrawerNavigator = ({ navigation }) => {
 // Main Navigator Class
 class Container extends Component {
     render() {
+        Strings.setLanguage(this.props.RTL ? 'en' : 'ar');
         return (
-            <DrawerNavigator />
+            <DrawerNavigator RTL={this.props.RTL} />
         )
     };
 };

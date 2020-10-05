@@ -27,25 +27,17 @@ class Orders extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            ModalVisble: false,
             TabState: 'Contract',
         }
     }
 
-    ToggleModal() {
-        this.setState({ ModalVisble: !this.state.ModalVisble })
-    }
-
     componentDidMount() {
-        if (this.props.route.params != undefined) {
-            this.setState({ ModalVisble: this.props.route.params })
-        } else {
-            console.log('old orders')
-        }
         this.props.fetchConsultOrder(this.props.Login.Token)
         this.props.fetchSpecialOrder(this.props.Login.Token)
         this.props.fetchContractOrder(this.props.Login.Token)
     }
+
+
 
     render() {
 
@@ -56,6 +48,7 @@ class Orders extends Component {
         Strings.setLanguage(RTL ? 'en' : 'ar');  // To Change Language According to RTL Redux State
 
         const ModalState = this.props.route.params;
+
 
         const RenderEmpty = (props) => {
             return (
@@ -140,39 +133,6 @@ class Orders extends Component {
             <ImageBackground style={{ width: '100%', height: '100%', resizeMode: 'cover' }} source={require('../../Assets/Layer991.png')} >
 
                 <SafeAreaView style={Styles.MainView}>
-
-                    <Modal
-                        isVisible={this.state.ModalVisble}
-                        style={{ justifyContent: 'center', alignItems: 'center' }}
-                    >
-                        <View style={{ width: '75%', height: '35%', borderRadius: 10, backgroundColor: Colors.White.Color }}>
-                            <View style={{ flexDirection: RTL ? 'row-reverse' : 'row', height: '10%', width: '100%' }}>
-
-                                <View style={{ width: '15%', justifyContent: 'center', alignItems: 'center' }}>
-                                    <Icon name='times-circle' size={FontSize.medium.fontsize} color={'red'} onPress={() => this.ToggleModal()} />
-                                </View>
-                            </View>
-
-                            <View style={{ width: '100%', height: '30%', justifyContent: 'center', alignItems: 'center' }}>
-                                <Image style={{ width: '50%', resizeMode: 'contain' }} source={require('../../Assets/VectorSmartObject.png')} />
-                            </View>
-
-
-                            <View style={{ width: '100%', height: '17.5%', justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={{ fontSize: FontSize.xxlarge.fontsize, color: 'red' }}>{Strings.thankU}</Text>
-                            </View>
-
-
-                            <View style={{ width: '100%', height: '17.5%', justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={{ fontSize: FontSize.small.fontsize, textAlign: 'center', width: '90%', fontWeight: '600' }}>{Strings.Srequest}</Text>
-                            </View>
-
-                            <View style={{ width: '100%', height: '25%', justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={{ fontSize: FontSize.mini.fontsize, textAlign: 'center', width: '90%' }}>{Strings.workon}</Text>
-                            </View>
-                        </View>
-
-                    </Modal>
 
                     {/* Saygha Logo  */}
                     <View style={Styles.LogoCon}>

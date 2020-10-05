@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { SafeAreaView, Text, View, StyleSheet, Image, ImageBackground, TextInput, TouchableOpacity, Button, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
+import { RNToasty } from 'react-native-toasty';
+
 
 
 // Strings Import 
@@ -44,7 +46,7 @@ class DraftingContract5 extends Component {
         };
 
         if (this.state.MainCom.length <= 1) {
-            Alert.alert('Please fill at least two obi')
+            RNToasty.Show({ title: Strings.dc7, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
         } else {
             Submit()
         }

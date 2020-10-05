@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { SafeAreaView, Text, View, StyleSheet, Image, ImageBackground, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
+import { RNToasty } from 'react-native-toasty';
+
 
 
 // Strings Import 
@@ -37,9 +39,19 @@ class Login extends Component {
     // to Handle Login
     loginClicked() {
         if (this.state.Email === null) {
-            Alert.alert(Strings.loginEmailErr);
+            RNToasty.Show({
+                title: Strings.loginEmailErr,
+                fontFamily: 'Arial',
+                position: 'bottom',
+                tintColor: Colors.Red.Color
+            });
         } else if (this.state.Password === null) {
-            Alert.alert(Strings.loginPassErr);
+            RNToasty.Show({
+                title: Strings.loginPassErr,
+                fontFamily: 'Arial',
+                position: 'bottom',
+                tintColor: Colors.Red.Color
+            });
         } else {
             try {
                 this.props.postLogin(this.state.Email, this.state.Password)
@@ -56,9 +68,20 @@ class Login extends Component {
                             }
                         } else {
                             if (this.props.Login.errMsg != null) {
-                                Alert.alert('Unable to connect')
+                                RNToasty.Show({
+                                    title: Strings.networkerror,
+                                    fontFamily: 'Arial',
+                                    position: 'bottom',
+                                    tintColor: Colors.Red.Color
+                                });
                             } else {
-                                Alert.alert(Strings.loginWrongEntry)
+                                // Alert.alert(Strings.loginWrongEntry)
+                                RNToasty.Show({
+                                    title: Strings.loginWrongEntry,
+                                    fontFamily: 'Arial',
+                                    position: 'bottom',
+                                    tintColor: Colors.Red.Color
+                                });
                             }
                         }
                     })
@@ -122,7 +145,7 @@ class Login extends Component {
 
                     {/* Forget Password */}
                     <View style={Styles.FrgtPassCon(RTL)}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => Navigation.navigate('Forgot')}>
                             <Text style={{ fontSize: FontSize.tiny.fontsize, color: Colors.Gray.Color }}>{Strings.forgotYourPassword} </Text>
                         </TouchableOpacity>
                     </View>

@@ -117,6 +117,9 @@ const Colors = {
     },
     SuccessGreen: {
         Color: '#5cb85c'
+    },
+    Red: {
+        Color: '#FF0000'
     }
 };
 

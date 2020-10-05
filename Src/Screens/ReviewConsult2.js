@@ -5,7 +5,7 @@ import { SafeAreaView, Text, View, StyleSheet, Image, ImageBackground, TextInput
 import ImagePicker from 'react-native-image-crop-picker';
 import { Icon, Button } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { RNToasty } from 'react-native-toasty';
 
 
 
@@ -62,9 +62,12 @@ class ReviewConsult2 extends Component {
 
     SendButton = () => {
         if (this.state.Details === '') {
-            Alert.alert(Strings.detailsRequired)
-        } else if (this.state.Date === null) {
-            Alert.alert(Strings.executionDateRequired)
+            RNToasty.Show({
+                title: Strings.detailsRequired,
+                fontFamily: 'Arial',
+                position: 'bottom',
+                tintColor: Colors.Red.Color
+            });
         } else {
             this.props.navigation.navigate('SelectService', { Ordertype: this.state.Ordertype, Details: this.state.Details, Images: this.state.ImageSourceviewarray, HasFiles: this.state.HasFiles })
         }

@@ -1,9 +1,12 @@
 // Package Import
 import React, { Component } from 'react';
 import { SafeAreaView, Text, View, StyleSheet, Image, ImageBackground, TextInput, TouchableOpacity, Alert } from 'react-native';
-import { Icon, CheckBox } from 'react-native-elements';
+import { CheckBox } from 'react-native-elements';
 import { RadioGroup, RadioButton } from 'react-native-flexi-radio-button'
 import LinearGradient from 'react-native-linear-gradient';
+import Modal from 'react-native-modal';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { RNToasty } from 'react-native-toasty';
 
 // Strings Import 
 import Strings from '../Assets/Strings';
@@ -23,7 +26,10 @@ const mapToStateProps = state => ({
     Login: state.Login, // To Get Token 
     OrderConsult: state.OrderConsult,
     OrderSpecial: state.OrderSpecial,
-    OrderContract: state.OrderContract
+    OrderContract: state.OrderContract,
+    FetchConsultOrder: state.FetchConsultOrder,
+    FetchSpecialOrder: state.FetchSpecialOrder,
+    FetchContractOrder: state.FetchContractOrder,
 })
 
 class SelectService extends Component {
@@ -32,6 +38,8 @@ class SelectService extends Component {
         this.state = {
             SelectServiceValue: ['300 SAR', '5 days'],
             TermsCheckBox: true,
+            ModalVisble: false,
+
         }
     }
 
@@ -43,112 +51,192 @@ class SelectService extends Component {
         })
     };
 
+    ToggleModal() {
+        this.setState({ ModalVisble: !this.state.ModalVisble })
+    }
+
     SendOrder(orderdetails) {
         if (orderdetails.Ordertype === 'consultation') {
             // Consultation Order Request
-            var formdata = new FormData();
-            formdata.append("order_type", orderdetails.Ordertype);
-            formdata.append("has_files", orderdetails.HasFiles);
-            formdata.append("execution_time", this.state.SelectServiceValue[1]);
-            formdata.append("amount", this.state.SelectServiceValue[0]);
-            formdata.append("details", orderdetails.Details);
-            orderdetails.Images.forEach((image) => {
-                formdata.append('images[]', {
-                    uri: image,
-                    type: 'multipart/form-data',
-                    name: 'image'
-                })
-            });
-            console.log(formdata);
-            try {
-                this.props.postConsultOrder(this.props.Login.Token, formdata)
-                    .then(() => {
-                        if (this.props.OrderConsult.OrderData) {
-                            this.props.navigation.popToTop();
-                            this.props.navigation.navigate('Orders', {
-                                screen: 'Orders',
-                                params: { Order: true },
-                            });
-                        } else {
-                            Alert.alert('Network error')
-                        }
+            if (this.props.OrderConsult.Count <= 15) {
+
+                var formdata = new FormData();
+                formdata.append("order_type", orderdetails.Ordertype);
+                formdata.append("has_files", orderdetails.HasFiles);
+                formdata.append("execution_time", this.state.SelectServiceValue[1]);
+                formdata.append("amount", this.state.SelectServiceValue[0]);
+                formdata.append("details", orderdetails.Details);
+                orderdetails.Images.forEach((image) => {
+                    formdata.append('images[]', {
+                        uri: image,
+                        type: 'multipart/form-data',
+                        name: 'image'
                     })
-            }
-            catch (error) {
-                error = 'Something Wrong';
-                console.log(error)
+                });
+                console.log(formdata);
+                try {
+                    this.props.postConsultOrder(this.props.Login.Token, formdata)
+                        .then(() => {
+                            if (this.props.OrderConsult.OrderData) {
+                                this.setState({ ModalVisble: !this.state.ModalVisble })
+                                this.props.FetchConsultOrder
+                            } else {
+                                RNToasty.Show({
+                                    title: Strings.networkerror,
+                                    fontFamily: 'Arial',
+                                    position: 'bottom',
+                                    tintColor: Colors.Red.Color
+                                });
+                            }
+                        })
+                }
+                catch (error) {
+                    error = 'Something Wrong';
+                    RNToasty.Show({
+                        title: error,
+                        fontFamily: 'Arial',
+                        position: 'bottom',
+                        tintColor: Colors.Red.Color
+                    });
+                }
+            } else {
+                Alert.alert(
+                    null,
+                    `${Strings.ReachedCon}`,
+                    [
+                        { text: 'OK', onPress: () => this.props.navigation.popToTop() }
+                    ],
+                    { cancelable: false }
+                )
             }
         } else if (orderdetails.Ordertype === 'special') {
             // Special Order Request
-            var formdata = new FormData();
-            formdata.append("order_type", orderdetails.Ordertype);
-            formdata.append("has_files", orderdetails.HasFiles);
-            formdata.append("execution_time", this.state.SelectServiceValue[1]);
-            formdata.append("amount", this.state.SelectServiceValue[0]);
-            formdata.append("details", orderdetails.Details);
-            orderdetails.Images.forEach((image) => {
-                formdata.append('images[]', {
-                    uri: image,
-                    type: 'multipart/form-data',
-                    name: 'image'
-                })
-            });
-            try {
-                this.props.postSpecialOrder(this.props.Login.Token, formdata)
-                    .then(() => {
-                        if (this.props.OrderSpecial.OrderData) {
-                            this.props.navigation.popToTop();
-                            this.props.navigation.navigate('Orders', {
-                                screen: 'Orders',
-                                params: { Order: true },
-                            });
-                        } else {
-                            Alert.alert('Network error')
-                        }
+            if (this.props.OrderSpecial.Count <= 15) {
+
+                var formdata = new FormData();
+                formdata.append("order_type", orderdetails.Ordertype);
+                formdata.append("has_files", orderdetails.HasFiles);
+                formdata.append("execution_time", this.state.SelectServiceValue[1]);
+                formdata.append("amount", this.state.SelectServiceValue[0]);
+                formdata.append("details", orderdetails.Details);
+                orderdetails.Images.forEach((image) => {
+                    formdata.append('images[]', {
+                        uri: image,
+                        type: 'multipart/form-data',
+                        name: 'image'
                     })
+                });
+                try {
+                    this.props.postSpecialOrder(this.props.Login.Token, formdata)
+                        .then(() => {
+                            if (this.props.OrderSpecial.OrderData) {
+                                this.setState({ ModalVisble: !this.state.ModalVisble })
+                                this.props.FetchSpecialOrder
+                            } else {
+                                RNToasty.Show({
+                                    title: Strings.networkerror,
+                                    fontFamily: 'Arial',
+                                    position: 'bottom',
+                                    tintColor: Colors.Red.Color
+                                });
+                            }
+                        })
+                }
+                catch (error) {
+                    error = 'Something Wrong';
+                    RNToasty.Show({
+                        title: error,
+                        fontFamily: 'Arial',
+                        position: 'bottom',
+                        tintColor: Colors.Red.Color
+                    });
+                }
             }
-            catch (error) {
-                error = 'Something Wrong';
-                console.log(error)
+            else {
+                Alert.alert(
+                    null,
+                    `${Strings.ReachedCon}`,
+                    [
+                        { text: 'OK', onPress: () => this.props.navigation.popToTop() }
+                    ],
+                    { cancelable: false }
+                )
             }
         } else {
             // Contract Order Request
-            try {
-                this.props.postContractOrder(
-                    this.props.Login.Token,
-                    orderdetails.Ordertype,
-                    orderdetails.HasFiles,
-                    this.state.SelectServiceValue[0],
-                    this.state.SelectServiceValue[1],
-                    orderdetails.Contract_Sub_Dur.Contract_Subject,
-                    orderdetails.Contract_Sub_Dur.Contract_Duration,
-                    orderdetails.Party1,
-                    orderdetails.Party2,
-                    orderdetails.Images,
-                    orderdetails.Commitments,
-                    orderdetails.Special_Terms,
-                    orderdetails.Partial_Terms,
-                    orderdetails.OtherTerms,
-                    orderdetails.Termination,
-                    orderdetails.Partial_Terms,
-                    orderdetails.Court,
-                )
-                    .then(() => {
-                        if (this.props.OrderContract.OrderData) {
-                            this.props.navigation.popToTop();
-                            this.props.navigation.navigate('Orders', {
-                                screen: 'Orders',
-                                params: { Order: true },
-                            });
-                        } else {
-                            Alert.alert('Network error')
-                        }
+            if (this.props.OrderContract.Count <= 15) {
+
+                var formdata = new FormData();
+                formdata.append("order_type", orderdetails.Ordertype);
+                formdata.append("has_files", orderdetails.HasFiles);
+                formdata.append("execution_time", this.state.SelectServiceValue[1]);
+                formdata.append("amount", this.state.SelectServiceValue[0]);
+                formdata.append("details", orderdetails.Contract_Sub_Dur.Contract_Subject);
+                formdata.append("contract_time", orderdetails.Contract_Sub_Dur.Contract_Duration);
+                formdata.append("p_one_name", orderdetails.Party1[0].p1_name);
+                formdata.append("p_one_national", orderdetails.Party1[1].p1_nationality);
+                formdata.append("p_one_card", orderdetails.Party1[2].p1_nationalid);
+                formdata.append("p_one_city", orderdetails.Party1[3].p1_city);
+                formdata.append("p_one_region", orderdetails.Party1[4].p1_district);
+                formdata.append("p_one_address", orderdetails.Party1[5].p1_nationaladdress);
+                formdata.append("p_one_email", orderdetails.Party1[6].p1_email);
+                formdata.append("p_one_phone", orderdetails.Party1[7].p1_phone);
+                formdata.append("p_two_name", orderdetails.Party2[0].p2_name);
+                formdata.append("p_two_national", orderdetails.Party2[1].p2_nationality);
+                formdata.append("p_two_card", orderdetails.Party2[2].p2_nationalid);
+                formdata.append("p_two_city", orderdetails.Party2[3].p2_city);
+                formdata.append("p_two_region", orderdetails.Party2[4].p2_district);
+                formdata.append("p_two_address", orderdetails.Party2[5].p2_nationaladdress);
+                formdata.append("p_two_email", orderdetails.Party2[6].p2_email);
+                formdata.append("p_two_phone", orderdetails.Party2[7].p2_phone);
+                formdata.append("commitments", orderdetails.Commitments);
+                formdata.append("special_terms", orderdetails.Special_Terms);
+                formdata.append("partial_terms", orderdetails.Partial_Terms);
+                formdata.append("other_terms", orderdetails.OtherTerms);
+                formdata.append("contract_of_law", orderdetails.Court);
+                orderdetails.Images.forEach((image) => {
+                    formdata.append('images[]', {
+                        uri: image,
+                        type: 'multipart/form-data',
+                        name: 'image'
                     })
+                });
+
+                try {
+                    this.props.postContractOrder(this.props.Login.Token, formdata)
+                        .then(() => {
+                            if (this.props.OrderContract.OrderData) {
+                                this.setState({ ModalVisble: !this.state.ModalVisble })
+                            } else {
+                                RNToasty.Show({
+                                    title: Strings.networkerror,
+                                    fontFamily: 'Arial',
+                                    position: 'bottom',
+                                    tintColor: Colors.Red.Color
+                                });
+                            }
+                        })
+                }
+                catch (error) {
+                    error = 'Something Wrong';
+                    RNToasty.Show({
+                        title: error,
+                        fontFamily: 'Arial',
+                        position: 'bottom',
+                        tintColor: Colors.Red.Color
+                    });
+                }
+            } else {
+                Alert.alert(
+                    null,
+                    `${Strings.ReachedCon}`,
+                    [
+                        { text: 'OK', onPress: () => this.props.navigation.popToTop() }
+                    ],
+                    { cancelable: false }
+                )
             }
-            catch (error) {
-                error = 'Something Wrong';
-                console.log(error)
-            }
+
         }
     }
 
@@ -161,9 +249,44 @@ class SelectService extends Component {
 
         const OrderDetails = this.props.route.params;
 
+        console.log(OrderDetails);
+
         // Main Return
         return (
             <SafeAreaView style={Styles.MainView}>
+
+                <Modal
+                    isVisible={this.state.ModalVisble}
+                    style={{ justifyContent: 'center', alignItems: 'center' }}
+                >
+                    <View style={{ width: '75%', height: '35%', borderRadius: 10, backgroundColor: Colors.White.Color }}>
+                        <View style={{ flexDirection: RTL ? 'row-reverse' : 'row', height: '10%', width: '100%' }}>
+
+                            <View style={{ width: '15%', justifyContent: 'center', alignItems: 'center' }}>
+                                <Icon name='times-circle' size={FontSize.medium.fontsize} color={'red'} onPress={() => { this.ToggleModal(); this.props.navigation.popToTop(); }} />
+                            </View>
+                        </View>
+
+                        <View style={{ width: '100%', height: '30%', justifyContent: 'center', alignItems: 'center' }}>
+                            <Image style={{ width: '50%', resizeMode: 'contain' }} source={require('../Assets/VectorSmartObject.png')} />
+                        </View>
+
+
+                        <View style={{ width: '100%', height: '17.5%', justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ fontSize: FontSize.xxlarge.fontsize, color: 'red' }}>{Strings.thankU}</Text>
+                        </View>
+
+
+                        <View style={{ width: '100%', height: '20%', justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ fontSize: FontSize.small.fontsize, textAlign: 'center', width: '90%', fontWeight: '600' }}>{Strings.Srequest}</Text>
+                        </View>
+
+                        <View style={{ width: '100%', height: '22.5%', justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ fontSize: FontSize.mini.fontsize, textAlign: 'center', width: '90%' }}>{Strings.workon}</Text>
+                        </View>
+                    </View>
+
+                </Modal>
 
                 {/* Main Image */}
                 <View style={Styles.ImageCon}>
@@ -258,7 +381,7 @@ class SelectService extends Component {
                     </View>
 
                     {/* Accept Terms & Conditiona */}
-                    <View style={{ width: Diem.width, height: Diem.height * 0.06, flexDirection: RTL ? 'row-reverse' : 'row' }}>
+                    <View style={{ width: Diem.width, height: Diem.height * 0.08, flexDirection: RTL ? 'row-reverse' : 'row' }}>
                         <View style={{ flex: 5, alignItems: 'flex-end', justifyContent: 'center' }}>
                             <Text style={Styles.policyTxt(RTL)}>{Strings.policy}</Text>
                         </View>

@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { SafeAreaView, Text, View, StyleSheet, Image, ImageBackground, TextInput, TouchableOpacity, Alert, Button } from 'react-native';
 import { Icon } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
+import { RNToasty } from 'react-native-toasty';
+
 
 
 // Strings Import 
@@ -57,21 +59,21 @@ class DraftingContract3 extends Component {
         };
 
         if (this.state.P1_Name === null) {
-            Alert.alert('Please fill in name');
+            RNToasty.Show({ title: Strings.nameRequired, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
         } else if (this.state.P1_Nationality === null) {
-            Alert.alert('Please fill in name2');
+            RNToasty.Show({ title: Strings.dc4, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
         } else if (this.state.P1_NationalId === null) {
-            Alert.alert('Please fill in name3');
+            RNToasty.Show({ title: Strings.dc5, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
         } else if (this.state.P1_City === null) {
-            Alert.alert('Please fill in name4');
+            RNToasty.Show({ title: Strings.addressRequired, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
         } else if (this.state.P1_District === null) {
-            Alert.alert('Please fill in name5');
+            RNToasty.Show({ title: Strings.addressRequired, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
         } else if (this.state.P1_NationalAddress === null) {
-            Alert.alert('Please fill in name6');
+            RNToasty.Show({ title: Strings.dc6, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
         } else if (this.state.P1_Email === null) {
-            Alert.alert('Please fill in name7');
+            RNToasty.Show({ title: Strings.emailRequired, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
         } else if (this.state.P1_Phone === null) {
-            Alert.alert('Please fill in name7');
+            RNToasty.Show({ title: Strings.phoneRequired, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
         } else {
             Submit()
         }
@@ -211,7 +213,7 @@ class DraftingContract3 extends Component {
 
                 {this.PartyComponent(RTL)}
 
-                <View style={{ width: Diem.width, height: Diem.height * 0.1, flexDirection: RTL ? 'row' : 'row-reverse' }}>
+                <View style={{ width: Diem.width, height: Diem.height * 0.11, flexDirection: RTL ? 'row' : 'row-reverse' }}>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: RTL ? 'flex-end' : 'flex-start' }}>
                         <TouchableOpacity
                             onPress={() => Navigation.pop()}

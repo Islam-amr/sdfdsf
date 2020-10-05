@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { SafeAreaView, Text, View, StyleSheet, Image, ImageBackground, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
+import { RNToasty } from 'react-native-toasty';
+
 
 
 // Strings Import 
@@ -58,21 +60,21 @@ class DraftingContract4 extends Component {
         };
 
         if (this.state.P2_Name === null) {
-            Alert.alert('Please fill in name');
+            RNToasty.Show({ title: Strings.nameRequired, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
         } else if (this.state.P2_Nationality === null) {
-            Alert.alert('Please fill in name2');
+            RNToasty.Show({ title: Strings.dc4, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
         } else if (this.state.P2_NationalId === null) {
-            Alert.alert('Please fill in name3');
+            RNToasty.Show({ title: Strings.dc5, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
         } else if (this.state.P2_City === null) {
-            Alert.alert('Please fill in name4');
+            RNToasty.Show({ title: Strings.addressRequired, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
         } else if (this.state.P2_District === null) {
-            Alert.alert('Please fill in name5');
+            RNToasty.Show({ title: Strings.addressRequired, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
         } else if (this.state.P2_NationalAddress === null) {
-            Alert.alert('Please fill in name6');
+            RNToasty.Show({ title: Strings.dc6, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
         } else if (this.state.P2_Email === null) {
-            Alert.alert('Please fill in name7');
+            RNToasty.Show({ title: Strings.emailRequired, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
         } else if (this.state.P2_Phone === null) {
-            Alert.alert('Please fill in name7');
+            RNToasty.Show({ title: Strings.phoneRequired, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
         } else {
             Submit()
         }

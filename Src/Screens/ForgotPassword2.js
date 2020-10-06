@@ -61,15 +61,15 @@ class ForgetPassword2 extends Component {
                 this.props.navigation.navigate('Login')
             } else {
                 if (result.msg === "reset code مطلوب.") {
-                    RNToasty.Show({ title: Strings.verifyCodeRequired, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color })
+                    RNToasty.Error({ title: Strings.verifyCodeRequired })
                 } else if (result.msg === "البريد الالكتروني مطلوب.") {
-                    RNToasty.Show({ title: Strings.emailRequired, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color })
+                    RNToasty.Error({ title: Strings.emailRequired })
                 } else if (result.msg === "كلمة السر مطلوب.") {
-                    RNToasty.Show({ title: Strings.passwordRequired, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color })
+                    RNToasty.Error({ title: Strings.passwordRequired })
                 } else if (result.msg === "حقل التأكيد غير مُطابق للحقل كلمة السر") {
-                    RNToasty.Show({ title: Strings.passwordNotMatch, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color })
+                    RNToasty.Error({ title: Strings.passwordNotMatch })
                 } else if (result.msg === " عفواً الكود الذي ادخلته غير صحيح") {
-                    RNToasty.Show({ title: Strings.verifyCodeWrong, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color })
+                    RNToasty.Error({ title: Strings.verifyCodeWrong })
                 }
 
             }

@@ -56,28 +56,27 @@ class Register extends Component {
                             this.props.navigation.navigate('VerifyAccount');
                         } else {
                             if (this.props.Register.errMsg != null) {
-                                RNToasty.Show({ title: Strings.networkerror, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
+                                RNToasty.Error({ title: Strings.networkerror });
                             } else {
                                 switch (this.props.Register.RegisterData.msg != null) {
                                     case this.props.Register.RegisterData.msg === 'الاسم مطلوب.':
-                                        return RNToasty.Show({ title: Strings.nameRequired, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
+                                        return RNToasty.Error({ title: Strings.nameRequired });
                                     case this.props.Register.RegisterData.msg === 'عنوان السكن مطلوب.':
-                                        return RNToasty.Show({ title: Strings.addressRequired, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
+                                        return RNToasty.Error({ title: Strings.addressRequired });
                                     case this.props.Register.RegisterData.msg === 'البريد الالكتروني مطلوب.':
-                                        return RNToasty.Show({ title: Strings.emailRequired, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
+                                        return RNToasty.Error({ title: Strings.emailRequired });
                                     case this.props.Register.RegisterData.msg === 'يجب أن يكون البريد الالكتروني عنوان بريد إلكتروني صحيح البُنية':
-                                        return RNToasty.Show({ title: Strings.wrongemail, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
+                                        return RNToasty.Error({ title: Strings.wrongemail });
                                     case this.props.Register.RegisterData.msg === 'قيمة البريد الالكتروني مُستخدمة من قبل':
-                                        return RNToasty.Show({ title: Strings.emailAlreadyUsed, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
+                                        return RNToasty.Error({ title: Strings.emailAlreadyUsed });
                                     case this.props.Register.RegisterData.msg === 'الهاتف مطلوب.':
-                                        return RNToasty.Show({ title: Strings.phoneRequired, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
+                                        return RNToasty.Error({ title: Strings.phoneRequired });
                                     case this.props.Register.RegisterData.msg === 'قيمة الهاتف مُستخدمة من قبل':
-                                        return RNToasty.Show({ title: Strings.phoneAlreadyUsed, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
+                                        return RNToasty.Error({ title: Strings.phoneAlreadyUsed });
                                     case this.props.Register.RegisterData.msg === 'كلمة السر مطلوب.':
-                                        return RNToasty.Show({ title: Strings.passwordRequired, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
+                                        return RNToasty.Error({ title: Strings.passwordRequired });
                                     case this.props.Register.RegisterData.msg === 'يجب أن يكون طول النص كلمة السر على الأقل 6 حروفٍ/حرفًا':
-                                        return Alert.alert(Strings.passwordLength);
-                                        return RNToasty.Show({ title: Strings.passwordLength, fontFamily: 'Arial', position: 'bottom', tintColor: Colors.Red.Color });
+                                        return RNToasty.Error({ title: Strings.passwordLength });
                                     default:
                                         return null;
                                 }

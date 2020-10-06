@@ -39,18 +39,12 @@ class Login extends Component {
     // to Handle Login
     loginClicked() {
         if (this.state.Email === null) {
-            RNToasty.Show({
+            RNToasty.Error({
                 title: Strings.loginEmailErr,
-                fontFamily: 'Arial',
-                position: 'bottom',
-                tintColor: Colors.Red.Color
             });
         } else if (this.state.Password === null) {
-            RNToasty.Show({
+            RNToasty.Error({
                 title: Strings.loginPassErr,
-                fontFamily: 'Arial',
-                position: 'bottom',
-                tintColor: Colors.Red.Color
             });
         } else {
             try {

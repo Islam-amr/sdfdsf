@@ -17,6 +17,8 @@ export const Login = (state = InitalState, action) => {
             return { ...state, isLoggingin: false, isAuthenticated: action.payload.loginstate, errMsg: null, UserData: action.payload.UserData, Token: action.payload.Token };
         case ActionTypes.LOGIN_FAILURE:
             return { ...state, isLoggingin: false, isAuthenticated: false, errMsg: action.payload };
+        case ActionTypes.LOG_OUT:
+            return { ...state, isLoggingin: false, isAuthenticated: null, UserData: null, Token: null, errMsg: null, };
         default:
             return state;
     }

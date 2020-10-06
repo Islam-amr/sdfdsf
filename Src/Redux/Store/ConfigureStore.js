@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 // Reducers
 import { Language } from '../Reducers/Language';
 import { Login } from '../Reducers/Login';
+import { UserData } from '../Reducers/UserData';
 import { Register } from '../Reducers/Register';
 import { Update } from '../Reducers/UpdateProfile';
 import { Verify, ResendCode } from '../Reducers/Verify';
@@ -24,7 +25,7 @@ export const ConfigureStore = () => {
     const config = {
         key: 'root',
         storage: AsyncStorage,
-        whitelist: ['Language', 'OrderConsult', 'OrderContract', 'OrderContract'],
+        whitelist: ['Language', 'UserData', 'OrderConsult', 'OrderContract', 'OrderContract'],
         debug: true,
 
     };
@@ -42,7 +43,8 @@ export const ConfigureStore = () => {
             OrderContract,
             FetchConsultOrder,
             FetchSpecialOrder,
-            FetchContractOrder
+            FetchContractOrder,
+            UserData
         }), undefined,
         applyMiddleware(thunk, logger)
     );

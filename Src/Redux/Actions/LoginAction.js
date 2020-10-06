@@ -20,8 +20,13 @@ export const postLogin = (email, password) => async dispatch => {
         }
         console.log(loginstate);
         dispatch({ type: ActionTypes.LOGIN_SUCCESS, payload: Data });
+        dispatch({ type: ActionTypes.LOG_IN, payload: Data });
     } catch (error) {
         console.log(error);
         dispatch({ type: ActionTypes.LOGIN_FAILURE, payload: error });
     }
 };
+
+export const postLogout = () => dispatch => {
+    dispatch({ type: ActionTypes.LOG_OUT });
+}

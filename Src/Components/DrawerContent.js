@@ -15,6 +15,7 @@ import Strings from '../Assets/Strings';
 import { Diem, Colors, FontSize, Fonts } from '../../Constant/Theme';
 
 // Redux 
+import * as Actions from '../Redux/Actions/LoginAction';
 import { connect } from 'react-redux';
 
 const mapToStateProps = state => ({
@@ -168,7 +169,7 @@ class DrawerContent extends React.PureComponent {
 
                                 {/* Log Out Drawer Item */}
                                 <TouchableOpacity
-                                    onPress={() => this.props.navigation.reset({ index: 0, routes: [{ name: 'Login' }], })}
+                                    onPress={() => { this.props.navigation.toggleDrawer(); this.props.postLogout(); }}
                                     activeOpacity={0.5}
                                     style={Styles.DrawerItemCon(RTL)}
                                 >
@@ -184,7 +185,7 @@ class DrawerContent extends React.PureComponent {
                         </View>
                     </SafeAreaView>
                 </ImageBackground>
-            </View>
+            </View >
         )
     }
 }
@@ -408,5 +409,5 @@ const Styles = StyleSheet.create({
     }
 });
 
-export default connect(mapToStateProps)(DrawerContent);
+export default connect(mapToStateProps, Actions)(DrawerContent);
 

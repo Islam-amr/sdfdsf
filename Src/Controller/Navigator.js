@@ -50,6 +50,7 @@ import { ConfigureStore } from '../../Src/Redux/Store/ConfigureStore';
 
 const mapToStateProps = state => ({
     RTL: state.Language.RTL,   // to Get RTL redux State
+    UserData: state.UserData
 });
 
 const { store } = ConfigureStore();
@@ -285,6 +286,8 @@ const TermsAndConditionsScreen = ({ navigation }) => {
 const DrawerNavigator = (props) => {
     const Drawer = createDrawerNavigator();
 
+    console.log(props.UserData)
+
     return (
         <NavigationContainer>
             <Drawer.Navigator
@@ -294,14 +297,19 @@ const DrawerNavigator = (props) => {
                 drawerContent={props => <DrawerContent {...props} />}
                 drawerStyle={{ width: Diem.width * 0.75 }}
             >
-                <Drawer.Screen name='Login' component={LoginScreen} options={{ gestureEnabled: false }} />
-                <Drawer.Screen name='Home' component={HomeScreen} />
-                <Drawer.Screen name='Profile' component={ProfileScreen} />
-                <Drawer.Screen name='Notifications' component={NotificationsScreen} />
-                <Drawer.Screen name='Orders' component={OrdersScreen} />
-                <Drawer.Screen name='Settings' component={SettingsScreen} />
-                <Drawer.Screen name='TermsAndConditions' component={TermsAndConditionsScreen} />
-                <Drawer.Screen name='ContactUs' component={ContactUsScreen} />
+                {!(props.UserData) ?
+                    <Drawer.Screen name='Login' component={LoginScreen} options={{ gestureEnabled: false }} />
+                    :
+                    <>
+                        <Drawer.Screen name='Home' component={HomeScreen} />
+                        <Drawer.Screen name='Profile' component={ProfileScreen} />
+                        <Drawer.Screen name='Notifications' component={NotificationsScreen} />
+                        <Drawer.Screen name='Orders' component={OrdersScreen} />
+                        <Drawer.Screen name='Settings' component={SettingsScreen} />
+                        <Drawer.Screen name='TermsAndConditions' component={TermsAndConditionsScreen} />
+                        <Drawer.Screen name='ContactUs' component={ContactUsScreen} />
+                    </>
+                }
             </Drawer.Navigator>
         </NavigationContainer>
     )
@@ -312,7 +320,7 @@ class Container extends Component {
     render() {
         Strings.setLanguage(this.props.RTL ? 'en' : 'ar');
         return (
-            <DrawerNavigator RTL={this.props.RTL} />
+            <DrawerNavigator RTL={this.props.RTL} UserData={this.props.UserData.Token} />
         )
     };
 };
